@@ -25,6 +25,12 @@ service Query {
     option (google.api.http).get = "/crude/crude/show_resource/{id}";
   
   }
+  
+  // Queries a list of ListResource items.
+  rpc ListResource (QueryListResourceRequest) returns (QueryListResourceResponse) {
+    option (google.api.http).get = "/crude/crude/list_resource/{category}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -42,5 +48,15 @@ message QueryShowResourceRequest {
 
 message QueryShowResourceResponse {
   Resource resource = 1;
+}
+
+message QueryListResourceRequest {
+  uint64                                category   = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryListResourceResponse {
+  Resource                               resource   = 1;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Query_Params_FullMethodName       = "/crude.crude.Query/Params"
 	Query_ShowResource_FullMethodName = "/crude.crude.Query/ShowResource"
+	Query_ListResource_FullMethodName = "/crude.crude.Query/ListResource"
 )
 
 // QueryClient is the client API for Query service.
@@ -32,6 +33,8 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a list of ShowResource items.
 	ShowResource(ctx context.Context, in *QueryShowResourceRequest, opts ...grpc.CallOption) (*QueryShowResourceResponse, error)
+	// Queries a list of ListResource items.
+	ListResource(ctx context.Context, in *QueryListResourceRequest, opts ...grpc.CallOption) (*QueryListResourceResponse, error)
 }
 
 type queryClient struct {
@@ -60,6 +63,15 @@ func (c *queryClient) ShowResource(ctx context.Context, in *QueryShowResourceReq
 	return out, nil
 }
 
+func (c *queryClient) ListResource(ctx context.Context, in *QueryListResourceRequest, opts ...grpc.CallOption) (*QueryListResourceResponse, error) {
+	out := new(QueryListResourceResponse)
+	err := c.cc.Invoke(ctx, Query_ListResource_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -68,6 +80,8 @@ type QueryServer interface {
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a list of ShowResource items.
 	ShowResource(context.Context, *QueryShowResourceRequest) (*QueryShowResourceResponse, error)
+	// Queries a list of ListResource items.
+	ListResource(context.Context, *QueryListResourceRequest) (*QueryListResourceResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -80,6 +94,9 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 }
 func (UnimplementedQueryServer) ShowResource(context.Context, *QueryShowResourceRequest) (*QueryShowResourceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowResource not implemented")
+}
+func (UnimplementedQueryServer) ListResource(context.Context, *QueryListResourceRequest) (*QueryListResourceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListResource not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -130,6 +147,24 @@ func _Query_ShowResource_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListResourceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListResource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListResource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListResource(ctx, req.(*QueryListResourceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -144,6 +179,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowResource",
 			Handler:    _Query_ShowResource_Handler,
+		},
+		{
+			MethodName: "ListResource",
+			Handler:    _Query_ListResource_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
