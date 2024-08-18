@@ -19,6 +19,7 @@ func (k msgServer) UpdateResource(goCtx context.Context, msg *types.MsgUpdateRes
 		Title:    msg.Title,
 		Body:     msg.Body,
 		Category: msg.Category,
+		NewField: msg.NewField, // Include the new field
 	}
 	val, found := k.GetResource(ctx, msg.Id)
 	if !found {

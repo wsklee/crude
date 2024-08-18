@@ -84,3 +84,14 @@ Delete a Resource:
 ```
 cruded tx crude delete-resource 0 --from alice  --chain-id crude
 ```
+
+## Consensus breaking change
+
+- Breaking consensus means introducing a change that causes nodes in the network to disagree on the state of the blockchain. This can lead to forks and network instability as different nodes may have different views of the blockchain.
+
+- Change made: Added a `newField` to Resource. Changed `update-resource`
+
+- Why this is a consensus breaking change
+  Previous Nodes: Nodes running the previous version of the protocol will not recognize the newField and will consider transactions with this field as invalid.
+  Updated Nodes: Nodes running the updated version will require the newField for transactions to be valid.
+  This discrepancy will cause nodes running different versions of the protocol to disagree on which transactions are valid, leading to a break in consensus.

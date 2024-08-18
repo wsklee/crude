@@ -10,4 +10,5 @@ message Resource {
   string body = 3; 
   string creator = 4; 
   uint64 category = 5; 
+  string newField = 6;
 }

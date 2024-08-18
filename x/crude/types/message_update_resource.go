@@ -15,6 +15,7 @@ func NewMsgUpdateResource(creator string, title string, body string, category ui
 		Body:     body,
 		Category: category,
 		Id:       id,
+		NewField: newField, // Include the new field
 	}
 }
 
