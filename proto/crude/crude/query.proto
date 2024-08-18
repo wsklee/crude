@@ -47,7 +47,7 @@ message QueryShowResourceRequest {
 }
 
 message QueryShowResourceResponse {
-  Resource resource = 1;
+  Resource resource = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryListResourceRequest {
@@ -56,7 +56,7 @@ message QueryListResourceRequest {
 }
 
 message QueryListResourceResponse {
-  Resource                               resource   = 1;
+  repeated Resource resource = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
